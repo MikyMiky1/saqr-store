@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — الصفحة غير موجودة | صقر ستور</title>
+
+    <!-- Tailwind CSS Play CDN (v3) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Tajawal"', '"Inter"', 'system-ui', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #faf6f0;
+            --text: #3d2b1f;
+            --muted: #7a6a5a;
+            --border: #e8dcc9;
+            --card: #ffffff;
+            --primary: #2d1b0e;
+            --primary-hover: #3d2b1f;
+            --accent: #b8860b;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            /* Larger base font size */
+            font-size: 18px;
+        }
+
+        .btn-primary {
+            transition: all 220ms ease;
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.875rem 2rem;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 27, 14, 0.15);
+        }
+        .btn-primary:active {
+            transform: scale(0.96);
+        }
+
+        .btn-outline {
+            transition: all 200ms ease;
+            background-color: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.875rem 2rem;
+        }
+        .btn-outline:hover {
+            background-color: #f0e6d8;
+            border-color: #c0a080;
+        }
+
+        .big-404 {
+            font-size: clamp(8rem, 20vw, 15rem); /* even bigger */
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .footer-text {
+            font-size: 1rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.9rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            z-index: 100;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            white-space: nowrap;
+            text-align: center;
+            pointer-events: none;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Content -->
+    <div class="max-w-2xl w-full">
+
+        <!-- Logo -->
+        <a href="index.html" class="inline-block mb-8 text-3xl font-bold tracking-tight hover:opacity-80 transition-opacity duration-200 select-none" style="color: var(--text);">
+            🦅 صقر ستور
+        </a>
+
+        <!-- 404 Big Text -->
+        <div class="big-404">404</div>
+
+        <!-- Title -->
+        <h1 class="title" style="color: var(--text);">
+            عذرًا! الصفحة دي مش موجودة
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="subtitle" style="color: var(--muted);">
+            يمكن يكون الرابط غلط أو الصفحة اتمسحت. متقلقش، انت في أمان هنا.
+            <br>
+            ممكن ترجع للرئيسية أو تتواصل معانا مباشرة.
+        </p>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <a href="index.html" class="btn-primary rounded-xl inline-flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0">
+                    <polyline points="19 12 5 12"/>
+                    <polyline points="12 19 5 12 12 5"/>
+                </svg>
+                <span>العودة للرئيسية</span>
+            </a>
+            <a href="https://wa.me/201156429816?text=%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%A7%D9%86%D8%A7%20%D8%AC%D8%A7%D9%8A%20%D9%85%D9%86%20%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9%20%D9%88%D8%AD%D8%A7%D8%A8%D8%A8%20%D8%A3%D8%B3%D8%A6%D9%84%20%D8%B9%D9%84%D9%89%20%D8%AD%D8%A7%D8%AC%D9%87%0A1-" target="_blank" rel="noopener noreferrer" class="btn-outline rounded-xl inline-flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="flex-shrink-0">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                <span>تواصل واتساب</span>
+            </a>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t mb-6" style="border-color: var(--border);"></div>
+
+        <!-- Footer -->
+        <p class="footer-text tracking-wide select-none" style="color: var(--muted);">© ٢٠٢٦ صقر ستور — جميع الحقوق محفوظة</p>
+        <p class="footer-tagline mt-2 select-none" style="color: #a89a8a;">صُنع بحب لعملائنا ❤️</p>
+    </div>
+
+</body>
+</html>

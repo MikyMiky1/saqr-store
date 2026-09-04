@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صقر ستور - S2R</title>
+
+    <!-- Tailwind CSS Play CDN (v3) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Tajawal"', '"Inter"', 'system-ui', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #faf6f0;
+            --text: #3d2b1f;
+            --muted: #7a6a5a;
+            --border: #e8dcc9;
+            --card: #ffffff;
+            --primary: #2d1b0e;
+            --primary-hover: #3d2b1f;
+            --accent: #b8860b;
+            --input-bg: #faf6f0;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: opacity 280ms ease;
+        }
+
+        .page-content {
+            transition: opacity 280ms ease;
+            opacity: 1;
+        }
+        .page-content.fading {
+            opacity: 0;
+        }
+
+        .lang-toggle {
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+            transition: all 220ms ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .lang-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .btn-primary {
+            transition: all 220ms ease;
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 27, 14, 0.15);
+        }
+        .btn-primary:active {
+            transform: scale(0.96);
+        }
+
+        .option-card {
+            transition: all 240ms ease;
+            cursor: pointer;
+            border: 2px solid var(--border);
+            background-color: var(--bg);
+        }
+        .option-card:hover {
+            border-color: #c0a080;
+            background-color: #f0e6d8;
+        }
+        .option-card.selected {
+            border-color: var(--accent);
+            background-color: #fdf8f0;
+            box-shadow: 0 0 0 4px rgba(184, 134, 11, 0.08);
+        }
+        .option-card:active {
+            transform: scale(0.975);
+        }
+
+        .color-btn {
+            padding: 0.35rem;
+            border-radius: 0.75rem;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            transition: all 220ms ease;
+            cursor: pointer;
+            width: calc(33.333% - 0.75rem);
+            min-width: 90px;
+            max-width: 150px;
+            flex: 0 0 calc(33.333% - 0.75rem);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .color-btn:hover {
+            border-color: #c0a080;
+            transform: scale(1.02);
+        }
+        .color-btn.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(184, 134, 11, 0.1);
+            background: #fdf8f0;
+        }
+        .color-btn img {
+            pointer-events: none;
+            display: block;
+            width: 100%;
+            height: 7rem;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+        @media (max-width: 640px) {
+            .color-btn {
+                width: calc(50% - 0.5rem);
+                flex: 0 0 calc(50% - 0.5rem);
+                max-width: 100%;
+            }
+            .color-btn img {
+                height: 6rem;
+            }
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(250, 246, 240, 0.92) !important;
+            border-bottom: 1px solid var(--border) !important;
+        }
+        header .text-neutral-100 {
+            color: var(--text) !important;
+        }
+        header .text-neutral-400 {
+            color: var(--muted) !important;
+        }
+        header a:hover {
+            color: var(--text) !important;
+        }
+
+        /* Hero */
+        .hero-bg {
+            background: linear-gradient(135deg, #fdf8f0 0%, #f0e6d8 100%);
+            border-bottom: 1px solid var(--border) !important;
+        }
+        .hero-bg .text-neutral-50 {
+            color: var(--text) !important;
+        }
+        .hero-bg .text-neutral-400 {
+            color: var(--muted) !important;
+        }
+        .hero-bg .btn-primary {
+            background-color: var(--primary) !important;
+            color: #fff !important;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border) !important;
+            background-color: var(--bg) !important;
+        }
+        footer .text-neutral-500 {
+            color: var(--muted) !important;
+        }
+        footer .text-neutral-600 {
+            color: #a89a8a !important;
+        }
+        footer .text-neutral-400 {
+            color: var(--muted) !important;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 70;
+            background-color: rgba(45, 27, 14, 0.6);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: overlayIn 220ms ease;
+        }
+        @keyframes overlayIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-container {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            width: 100%;
+            max-width: 640px;
+            max-height: 92vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+            animation: modalIn 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            position: relative;
+        }
+        .modal-container.closing {
+            animation: modalOut 200ms ease forwards;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes modalOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(20px) scale(0.96); }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 inset-x-0 z-50 backdrop-blur-lg border-b" style="background-color: rgba(250,246,240,0.92); border-color: var(--border);">
+        <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+            <a href="#" class="text-xl font-bold tracking-tight hover:opacity-80 transition-opacity duration-200 select-none" style="color: var(--text);" data-i18n="brand">
+                صقر ستور
+            </a>
+
+            <button id="langToggle" class="lang-toggle flex items-center gap-2 px-4 py-2.5 rounded-full font-semibold text-sm border transition-all" style="background: #fff; color: var(--text); border-color: var(--border);" aria-label="Switch language">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span data-i18n="langBtnLabel">English</span>
+            </button>
+        </nav>
+    </header>
+
+    <div class="h-[57px] sm:h-[61px]"></div>
+
+    <!-- Main Content -->
+    <div id="pageContent" class="page-content">
+
+        <!-- Hero Banner -->
+        <section class="hero-bg relative overflow-hidden border-b">
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(circle at 25% 30%, #3d2b1f 1px, transparent 1px); background-size: 28px 28px;"></div>
+
+            <div class="relative z-10 max-w-4xl mx-auto px-4 py-14 sm:py-20 lg:py-24 text-center">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-4 tracking-tight" style="color: var(--text);" data-i18n="heroTitle">
+                    الشنطة الكاملة — العرض المميز
+                </h1>
+                <p class="text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed" style="color: var(--muted);" data-i18n="heroSubtitle">
+                    شنطة اكوك صقر مش هتحتاج غيرها – كل اللي محتاجه للجيش في شنطة واحدة
+                    <br class="hidden sm:block">
+                    باقة كاملة بـ 1650 ج.م – شحن مجاني + اختار اللون اللي يناسبك
+                </p>
+
+                <button id="heroBuyBtn" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base shadow-lg cursor-pointer select-none" style="background-color: var(--primary); color: #fff;" data-i18n="heroCta">
+                    شوف العرض
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 arrow-icon">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t mt-8" style="border-color: var(--border); background-color: var(--bg);">
+            <div class="max-w-6xl mx-auto px-4 py-8 sm:py-10 text-center">
+                <div class="flex justify-center mb-4">
+                    <a href="https://wa.me/201156429816?text=%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%A7%D9%86%D8%A7%20%D8%AC%D8%A7%D9%8A%20%D9%85%D9%86%20%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9%20%D8%AD%D8%A7%D8%A8%D8%A8%20%D8%A7%D8%B3%D8%A6%D9%84%20%D8%B9%D9%84%D9%89%20%D8%AD%D8%A7%D8%AC%D9%87%0A1-" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 transition-colors duration-200" style="color: var(--muted);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="flex-shrink-0">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        <span data-i18n="whatsappText">تواصل معي عبر واتساب</span>
+                    </a>
+                </div>
+                <p class="text-sm tracking-wide select-none" style="color: var(--muted);" data-i18n="footerText">© ٢٠٢٦ صقر ستور — جميع الحقوق محفوظة</p>
+                <p class="text-xs mt-2 select-none" style="color: #a89a8a;" data-i18n="footerTagline">صُنع بحب لعملائنا ❤️</p>
+            </div>
+        </footer>
+
+    </div><!-- /page-content -->
+
+    <!-- Modal -->
+    <div id="modalOverlay" class="modal-overlay hidden"></div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            const translations = {
+                ar: {
+                    brand: 'صقر ستور',
+                    langBtnLabel: 'English',
+                    heroTitle: 'الشنطة الكاملة — العرض المميز',
+                    heroSubtitle: 'شنطة اكوك صقر مش هتحتاج غيرها – كل اللي محتاجه للجيش في شنطة واحدة. باقة كاملة بـ 1650 ج.م + شحن مجاني، اختار اللون',
+                    heroCta: 'شوف العرض',
+                    footerText: '© ٢٠٢٦ صقر ستور — جميع الحقوق محفوظة',
+                    footerTagline: 'صُنع بحب لعملائنا ❤️',
+                    whatsappText: 'تواصل معي عبر واتساب',
+                    skipVideo: 'تخطى ⏭',
+                    modalTitle: 'اختار طريقة الشراء',
+                    modalClose: 'إغلاق',
+                    optionFullTitle: '🎁 الباقة الكاملة',
+                    optionFullDesc: 'الشنطة + كل المحتويات (شحن مجاني)',
+                    optionBagTitle: '👜 الشنطة فقط',
+                    optionBagDesc: 'الشنطة كاملة بدون المحتويات',
+                    optionItemsTitle: '📦 المحتويات فقط',
+                    optionItemsDesc: 'جميع الأدوات بدون الشنطة',
+                    confirmBtn: 'تأكيد الشراء',
+                    currencyLabel: 'ج.م',
+                    freeShipping: 'شحن مجاني',
+                    colorLabel: 'اختر اللون',
+                    color1: 'لون 1',
+                    color2: 'لون 2',
+                    color3: 'لون 3',
+                    color5: 'لون 5',
+                    color6: 'لون 6',
+                    color7: 'لون 7',
+                    depositLabel: 'الدفعة المقدمة:'
+                },
+                en: {
+                    brand: 'S2R Store',
+                    langBtnLabel: 'العربية',
+                    heroTitle: 'The Complete Bag — Premium Deal',
+                    heroSubtitle: 'The ultimate army bag – everything you need in one bag. Complete package for 1650 EGP + free shipping, pick your color',
+                    heroCta: 'View the Deal',
+                    footerText: '© 2026 S2R Store — All rights reserved',
+                    footerTagline: 'Crafted with love for our customers ❤️',
+                    whatsappText: 'Contact me via WhatsApp',
+                    skipVideo: 'Skip ⏭',
+                    modalTitle: 'Choose Purchase Method',
+                    modalClose: 'Close',
+                    optionFullTitle: '🎁 Complete Bundle',
+                    optionFullDesc: 'Bag + all items (free shipping)',
+                    optionBagTitle: '👜 Bag Only',
+                    optionBagDesc: 'The bag without contents',
+                    optionItemsTitle: '📦 Items Only',
+                    optionItemsDesc: 'All tools without the bag',
+                    confirmBtn: 'Confirm Purchase',
+                    currencyLabel: 'EGP',
+                    freeShipping: 'Free Shipping',
+                    colorLabel: 'Select Color',
+                    color1: 'Color 1',
+                    color2: 'Color 2',
+                    color3: 'Color 3',
+                    color5: 'Color 5',
+                    color6: 'Color 6',
+                    color7: 'Color 7',
+                    depositLabel: 'Deposit:'
+                }
+            };
+
+            let currentLang = 'ar';
+            let activeModalOverlay = null;
+            let selectedOption = 'full';
+            let selectedColor = '2'; // تم تغيير الافتراضي من 1 إلى 2
+
+            // Deposit amounts for each option
+            const depositMap = {
+                bag: 130,
+                items: 170,
+                full: 250
+            };
+
+            const fullPriceMap = {
+                bag: 480,
+                items: 1170,
+                full: 1650
+            };
+
+            const htmlElement = document.documentElement;
+            const pageContent = document.getElementById('pageContent');
+            const langToggle = document.getElementById('langToggle');
+            const heroBuyBtn = document.getElementById('heroBuyBtn');
+            const modalOverlay = document.getElementById('modalOverlay');
+
+            function updateStaticText(lang) {
+                document.querySelectorAll('[data-i18n]').forEach((el) => {
+                    const key = el.getAttribute('data-i18n');
+                    const value = translations[lang]?.[key];
+                    if (value !== undefined) el.textContent = value;
+                });
+            }
+
+            function updateArrowDirection(lang) {
+                const arrowIcon = document.querySelector('.arrow-icon');
+                if (!arrowIcon) return;
+                arrowIcon.innerHTML = lang === 'ar'
+                    ? '<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 5 5 12 12 19"/>'
+                    : '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>';
+            }
+
+            function closeModal(instant = false) {
+                if (!activeModalOverlay) return;
+                const overlay = activeModalOverlay;
+                const container = overlay.querySelector('.modal-container');
+
+                if (overlay._escHandler) {
+                    document.removeEventListener('keydown', overlay._escHandler);
+                }
+
+                if (instant) {
+                    overlay.remove();
+                    activeModalOverlay = null;
+                    selectedOption = 'full';
+                    return;
+                }
+
+                overlay.classList.add('closing');
+                if (container) container.classList.add('closing');
+
+                setTimeout(() => {
+                    if (overlay.isConnected) overlay.remove();
+                    if (activeModalOverlay === overlay) activeModalOverlay = null;
+                    selectedOption = 'full';
+                }, 220);
+            }
+
+            function handleConfirm(lang) {
+                const price = fullPriceMap[selectedOption];
+                const deposit = depositMap[selectedOption];
+                const url = `paymantpage.html?option=${selectedOption}&lang=${lang}&price=${price}&color=${selectedColor}&deposit=${deposit}`;
+                window.location.assign(url);
+            }
+
+            function openModal(lang) {
+                const t = translations[lang];
+                selectedOption = 'full';
+                selectedColor = '2'; // تم التغيير هنا
+
+                const overlay = document.createElement('div');
+                overlay.className = 'modal-overlay';
+                overlay.setAttribute('role', 'dialog');
+                overlay.setAttribute('aria-modal', 'true');
+                overlay.setAttribute('aria-label', t.modalTitle);
+
+                overlay.innerHTML = `
+                    <div class="modal-container" id="modalContainer" tabindex="-1">
+                        <div class="sticky top-0 z-10 px-5 py-4 flex items-center justify-between rounded-t-2xl" style="background-color: var(--card); border-bottom: 1px solid var(--border);">
+                            <h3 class="text-lg font-bold tracking-tight" style="color: var(--text);">${t.modalTitle}</h3>
+                            <button id="modalCloseBtn" type="button" class="p-1 rounded-lg hover:opacity-70 transition-opacity" style="color: var(--muted);" aria-label="${t.modalClose}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="px-5 py-5 space-y-4">
+                            <!-- Video -->
+                            <div class="relative w-full rounded-xl overflow-hidden bg-black shadow-inner">
+                                <video id="modalVideo" autoplay playsinline class="w-full h-auto max-h-[60vh] object-contain transition-opacity duration-500" src="imgs/vid_1.mp4">
+                                    <img src="imgs/fallback.jpg" class="w-full h-full object-cover" alt="Video fallback">
+                                </video>
+                                <button id="skipVideoBtn" type="button" class="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 text-white px-3 py-1.5 rounded-full text-xs font-medium z-20 backdrop-blur-sm transition-colors">
+                                    ${t.skipVideo}
+                                </button>
+                            </div>
+
+                            <!-- Options -->
+                            <div id="modalOptions" class="space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <!-- Bag only -->
+                                    <button type="button" class="option-card rounded-xl p-4 flex flex-col gap-2 text-start" data-option="bag">
+                                        <div class="text-2xl">👜</div>
+                                        <h4 class="text-sm font-bold" style="color: var(--text);">${t.optionBagTitle}</h4>
+                                        <p class="text-xs" style="color: var(--muted);">${t.optionBagDesc}</p>
+                                        <span class="text-lg font-bold mt-auto" style="color: var(--text);">${fullPriceMap.bag} ${t.currencyLabel}</span>
+                                        <span class="text-xs font-semibold" style="color: var(--accent);">${t.depositLabel} ${depositMap.bag} ${t.currencyLabel}</span>
+                                    </button>
+
+                                    <!-- Items only -->
+                                    <button type="button" class="option-card rounded-xl p-4 flex flex-col gap-2 text-start" data-option="items">
+                                        <div class="text-2xl">📦</div>
+                                        <h4 class="text-sm font-bold" style="color: var(--text);">${t.optionItemsTitle}</h4>
+                                        <p class="text-xs" style="color: var(--muted);">${t.optionItemsDesc}</p>
+                                        <span class="text-lg font-bold mt-auto" style="color: var(--text);">${fullPriceMap.items} ${t.currencyLabel}</span>
+                                        <span class="text-xs font-semibold" style="color: var(--accent);">${t.depositLabel} ${depositMap.items} ${t.currencyLabel}</span>
+                                    </button>
+
+                                    <!-- Full bundle -->
+                                    <button type="button" class="option-card rounded-xl p-4 flex flex-col gap-2 text-start selected" data-option="full">
+                                        <div class="text-2xl">🎁</div>
+                                        <h4 class="text-sm font-bold" style="color: var(--text);">${t.optionFullTitle}</h4>
+                                        <p class="text-xs" style="color: var(--muted);">${t.optionFullDesc}</p>
+                                        <span class="text-lg font-bold mt-auto" style="color: var(--text);">${fullPriceMap.full} ${t.currencyLabel}</span>
+                                        <span class="text-xs font-semibold" style="color: var(--accent);">${t.depositLabel} ${depositMap.full} ${t.currencyLabel}</span>
+                                        <span class="text-xs text-green-600">${t.freeShipping}</span>
+                                    </button>
+                                </div>
+
+                                <!-- Color selection -->
+                                <div id="colorSelection" class="p-4 rounded-xl border" style="background: #fdf8f0; border-color: var(--border);">
+                                    <label class="block text-sm font-medium mb-3" style="color: var(--text);">${t.colorLabel}</label>
+                                    <div class="flex flex-wrap justify-center gap-3" id="colorOptions">
+                                        <button type="button" data-color="2" class="color-btn selected">
+                                            <img src="imgs/bags/color2_prof.jfif" alt="Color 2" class="w-full h-32 sm:h-36 object-cover rounded-lg">
+                                        </button>
+                                        <button type="button" data-color="5" class="color-btn">
+                                            <img src="imgs/bags/color5_prof.jfif" alt="Color 5" class="w-full h-32 sm:h-36 object-cover rounded-lg">
+                                        </button>
+                                        <button type="button" data-color="6" class="color-btn">
+                                            <img src="imgs/bags/color6_prof.jfif" alt="Color 6" class="w-full h-32 sm:h-36 object-cover rounded-lg">
+                                        </button>
+                                        <button type="button" data-color="7" class="color-btn">
+                                            <img src="imgs/bags/color7_prof.jfif" alt="Color 7" class="w-full h-32 sm:h-36 object-cover rounded-lg">
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Confirm -->
+                                <button id="modalConfirmBtn" type="button" class="btn-primary w-full py-3.5 rounded-xl font-semibold text-base flex items-center justify-center gap-2" style="background-color: var(--primary); color: #fff;">
+                                    ${t.confirmBtn} — <span id="modalPriceDisplay">${fullPriceMap.full}</span> ${t.currencyLabel}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(overlay);
+                activeModalOverlay = overlay;
+
+                // Query elements
+                const closeBtn = overlay.querySelector('#modalCloseBtn');
+                const modalVideo = overlay.querySelector('#modalVideo');
+                const skipVideoBtn = overlay.querySelector('#skipVideoBtn');
+                const confirmBtn = overlay.querySelector('#modalConfirmBtn');
+                const modalPriceDisplay = overlay.querySelector('#modalPriceDisplay');
+                const colorSelection = overlay.querySelector('#colorSelection');
+                const colorBtns = overlay.querySelectorAll('.color-btn');
+                const optionCards = overlay.querySelectorAll('.option-card');
+
+                skipVideoBtn.addEventListener('click', () => {
+                    if (modalVideo) {
+                        modalVideo.pause();
+                        modalVideo.style.display = 'none';
+                        skipVideoBtn.style.display = 'none';
+                    }
+                });
+
+                // Color selection visibility
+                function updateColorVisibility() {
+                    if (selectedOption === 'bag' || selectedOption === 'full') {
+                        colorSelection.classList.remove('hidden');
+                    } else {
+                        colorSelection.classList.add('hidden');
+                    }
+                }
+
+                // Price update
+                function updatePrice() {
+                    let price = fullPriceMap[selectedOption];
+                    modalPriceDisplay.textContent = price.toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US');
+                }
+
+                // Option selection
+                optionCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        selectedOption = card.dataset.option;
+                        optionCards.forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                        updatePrice();
+                        updateColorVisibility();
+                    });
+                });
+
+                // Color selection
+                colorBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        selectedColor = btn.dataset.color;
+                        colorBtns.forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                    });
+                });
+
+                // Confirm button
+                confirmBtn.addEventListener('click', () => {
+                    handleConfirm(lang);
+                });
+
+                // Close button
+                closeBtn.addEventListener('click', () => closeModal());
+
+                // Esc to close
+                const escHandler = (e) => {
+                    if (e.key === 'Escape') closeModal();
+                };
+                overlay._escHandler = escHandler;
+                document.addEventListener('keydown', escHandler);
+
+                // Initial state
+                updatePrice();
+                updateColorVisibility();
+            }
+
+            function switchLanguage(targetLang) {
+                if (!translations[targetLang] || currentLang === targetLang) return;
+
+                if (activeModalOverlay) closeModal(true);
+
+                pageContent?.classList.add('fading');
+
+                setTimeout(() => {
+                    htmlElement.lang = targetLang;
+                    htmlElement.dir = targetLang === 'ar' ? 'rtl' : 'ltr';
+                    updateStaticText(targetLang);
+                    updateArrowDirection(targetLang);
+                    currentLang = targetLang;
+                    requestAnimationFrame(() => pageContent?.classList.remove('fading'));
+                }, 260);
+            }
+
+            if (langToggle) {
+                langToggle.addEventListener('click', () => {
+                    switchLanguage(currentLang === 'ar' ? 'en' : 'ar');
+                });
+
+                langToggle.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        switchLanguage(currentLang === 'ar' ? 'en' : 'ar');
+                    }
+                });
+            }
+
+            if (heroBuyBtn) {
+                heroBuyBtn.addEventListener('click', () => openModal(currentLang));
+            }
+
+            updateStaticText(currentLang);
+            updateArrowDirection(currentLang);
+
+        })();
+    </script>
+</body>
+</html>
